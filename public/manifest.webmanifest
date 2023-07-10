@@ -1,0 +1,15 @@
+{
+    "background_color": "red",
+    "description": "Travel Application",
+    "display": "fullscreen",
+    "icons": [
+      {
+        "src": "icon/B-SideIcon.png",
+        "sizes": "192x192",
+        "type": "image/png"
+      }
+    ],
+    "name": "B-Side",
+    "short_name": "B-Side",
+    "start_url": "index.html"
+  }

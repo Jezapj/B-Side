@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>B-Side</title>
+<link rel="stylesheet" href="style.css">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+<link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.grey-red.min.css" />
+<script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+<script src='https://api.tiles.mapbox.com/mapbox-gl-js/v1.1.1/mapbox-gl.js'></script>
+<link rel="shortcut icon" type="image/jpg" href="B-SideCBig.png" />
+<link href='https://api.tiles.mapbox.com/mapbox-gl-js/v1.1.1/mapbox-gl.css' rel='stylesheet'>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<link href='https://fonts.googleapis.com/css?family=Bungee Outline' rel='stylesheet'/>
+    <link href='https://fonts.googleapis.com/css?family=Varela Round' rel='stylesheet'/>
+    <!-- Use font awesome icons. -->
+    
+    <!-- Use firebase app and database. -->
+    <script src="https://www.gstatic.com/firebasejs/8.2.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.2.1/firebase-database.js"></script>
+    <!-- Use ads. -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1359725723164104"
+     crossorigin="anonymous"></script>
+</head>
+<body onload="modeLoad()">
+    
+<main>
+    <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+        <!-- HEADER -->
+        <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+            <header class="mdl-layout__header">
+                <div class="mdl-layout__header-row">
+                    <!-- Title --><span class="mdl-layout-title"><pre>B-Side</pre></span> <img class="Icon" src="B-SideCBig.png" alt="Icon">
+                    <div class="mdl-layout-spacer"></div>
+                    <nav class="mdl-navigation mdl-layout--large-screen-only"> <span class="mdl-layout-title">Home</span> </nav>
+                   
+                </div>
+            </header>
+            <div class="mdl-layout__drawer"> <span class="mdl-layout-title">B-Side</span>
+                <nav class="mdl-navigation"> <a class="mdl-navigation__link" href="index.html">Home</a> <a class="mdl-navigation__link" href="make.html">Meet</a> <a class="mdl-navigation__link" href="upcoming.html">Run</a><hr> <a onclick="modeChange()" class="mdl-navigation__link">Change Mode</a> </nav>
+            </div>
+            <main class="mdl-layout__content">
+                <div class="page-content">
+                    <!-- CONTENT -->
+                    <!--<div id="status"><h4>Connected to peer</h4></div>-->
+                    
+                        <div  id="searchC" ><span class="material-icons">search</span></div>
+                        
+                    <div id="map" class="mapboxgl-map"></div>
+                    <br>
+                    <center>
+                        <button id="show-dialog" onclick="" style="position: absolute; margin-top: -5%; width: 30%;" class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent"> Host Room <span class="material-icons">search</span> </button>
+                        <button id="show-dialog2" onclick="" style="position: absolute; margin-top: -5%; width: 30%;" class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent"> Join Room </button>
+                    </center>
+
+                    
+                    
+
+                    <dialog class="mdl-dialog">
+                        <h4 class="mdl-dialog__title">Host Room</h4>
+                        <div class="mdl-dialog__content">
+                          <p>
+                            Do you want to host a room?.
+                          </p>
+                        </div>
+                        <div class="mdl-dialog__actions">
+                          <button type="button" class="mdl-button agree">Agree</button>
+                          <button type="button" class="mdl-button close">Disagree</button>
+                        </div>
+                      </dialog>
+                      
+                      <dialog class="mdl-dialog" id="mdl-dialogH">
+                        
+                      </dialog>
+
+                      <dialog class="mdl-dialog" id="mdl-dialog2">
+                        <h4 class="mdl-dialog__title">Join Room</h4>
+                        <div class="mdl-dialog__content">
+                          <p>
+                            Please enter the code to join the room.
+                          </p>
+
+                          <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label is-upgraded is-dirty" data-upgraded=",MaterialTextfield">
+                            <input class="mdl-textfield__input" type="text" id="joinCode" pattern="^(?:(?:^| )\S+ *){3,}$" required="">
+                            <label class="mdl-textfield__label" for="joinCode">Join Code:</label> <span class="mdl-textfield__error">Please put in your code</span> </div>
+                       
+                        <div class="mdl-dialog__actions">
+                          <button type="button" class="mdl-button agree">Join</button>
+                          <button type="button" class="mdl-button close">Cancel</button>
+                        </div>
+                      </dialog>
+
+                      
+
+                      <dialog class="mdl-dialog" id="mdl-dialogS">
+                        <h4 class="mdl-dialog__title" style="text-align: center;" id="mdl-dialog__titleS">Search</h4>
+                        <div class="mdl-dialog__content" id="mdl-dialog__contentS">
+                            
+                            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label is-upgraded is-dirty" data-upgraded=",MaterialTextfield">
+                                <input class="mdl-textfield__input" type="text" id="pickupLocation" pattern="^(?:(?:^| )\S+ *){3,}$" required="">
+                                <label class="mdl-textfield__label" for="pickupLocation">Start:</label> <span class="mdl-textfield__error">Please put in your start location</span> </div>
+                                
+                                
+        
+                                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label is-upgraded is-dirty" data-upgraded=",MaterialTextfield">
+                                    <input class="mdl-textfield__input" type="text" id="destinationLocation" pattern="^(?:(?:^| )\S+ *){3,}$" required="">
+                                    <label class="mdl-textfield__label" for="destinationLocation">End:</label> <span class="mdl-textfield__error">Please put in your destination</span> </div>
+                                
+                        </div>
+                        <div class="mdl-dialog__actions" id="mdl-dialog__actionsS">
+                            <button type="button" onclick="addStart();addStop();" class="mdl-button agree">Confirm</button>
+                            <button type="button" onclick="clearFields();" class="mdl-button close">Cancel</button>
+                          </div>
+                    
+                      </dialog>
+
+                      <div id="conStatus" class="mdl-js-snackbar mdl-snackbar">
+                        <div class="mdl-snackbar__text"></div>
+                        <button class="mdl-snackbar__action" type="button"></button>
+                      </div>
+                      
+
+</main>
+</body>
+
+
+<script src="classes.js"></script>
+<script src="api.js"></script>
+<script type="module" src="p2p.js"></script>
+<script  src="main.js"></script>
+
+
+</html>

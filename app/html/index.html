@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>B-Side</title>
+<link rel="stylesheet" href="../css/style.css">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+<link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.grey-red.min.css" />
+<script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+<script src='https://api.tiles.mapbox.com/mapbox-gl-js/v1.1.1/mapbox-gl.js'></script>
+<link rel="shortcut icon" type="image/jpg" href="B-SideCBig.png" />
+<link href='https://api.tiles.mapbox.com/mapbox-gl-js/v1.1.1/mapbox-gl.css' rel='stylesheet'>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+<body onload="modeLoad()">
+    
+<main>
+    <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+        <!-- HEADER -->
+        <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+            <header class="mdl-layout__header">
+                <div class="mdl-layout__header-row">
+                    <!-- Title --><span class="mdl-layout-title"><pre>B-Side</pre></span> <img class="Icon" src="B-SideCBig.png" alt="Icon">
+                    <div class="mdl-layout-spacer"></div>
+                    <nav class="mdl-navigation mdl-layout--large-screen-only"> <span class="mdl-layout-title">Home</span> </nav>
+                </div>
+            </header>
+            <div class="mdl-layout__drawer"> <span class="mdl-layout-title">B-Side</span>
+                <nav class="mdl-navigation"> <a class="mdl-navigation__link" href="index.html">Home</a> <a class="mdl-navigation__link" href="make.html">Meet</a> <a class="mdl-navigation__link" href="upcoming.html">Run</a><hr> <a onclick="modeChange()" class="mdl-navigation__link">Change Mode</a> </nav>
+            </div>
+            <main class="mdl-layout__content">
+                <div class="page-content">
+                    <!-- CONTENT -->
+                        <div onclick="searchC()" id="searchC" ><span class="material-icons">search</span></div>
+                        
+                    <div id="map" class="mapboxgl-map"></div>
+                    <br>
+                    <center>
+                        <button id="show-dialog" onclick="" style="position: relative; margin-top: -5%; width: 30%;" class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent"> Host Room <span class="material-icons">search</span> </button>
+                        <button id="show-dialog2" onclick="" style="position: relative; margin-top: -5%; width: 30%;" class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent"> Join Room </button>
+                    </center>
+
+                    
+                    
+
+                    <dialog class="mdl-dialog">
+                        <h4 class="mdl-dialog__title">Host Room</h4>
+                        <div class="mdl-dialog__content">
+                          <p>
+                            Do you want to host a room?.
+                          </p>
+                        </div>
+                        <div class="mdl-dialog__actions">
+                          <button type="button" class="mdl-button agree">Agree</button>
+                          <button type="button" class="mdl-button close">Disagree</button>
+                        </div>
+                      </dialog>
+
+                      <dialog class="mdl-dialog" id="mdl-dialog2">
+                        <h4 class="mdl-dialog__title">Join Room</h4>
+                        <div class="mdl-dialog__content">
+                          <p>
+                            Please enter the code to join the room.
+                          </p>
+
+                          <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label is-upgraded is-dirty" data-upgraded=",MaterialTextfield">
+                            <input class="mdl-textfield__input" type="text" id="pickupLocation" pattern="^(?:(?:^| )\S+ *){3,}$" required="">
+                            <label class="mdl-textfield__label" for="pickupLocation">Join Code:</label> <span class="mdl-textfield__error">Please put in your code</span> </div>
+                       
+                        <div class="mdl-dialog__actions">
+                          <button type="button" class="mdl-button agree">Join</button>
+                          <button type="button" class="mdl-button close">Cancel</button>
+                        </div>
+                      </dialog>
+
+                      <dialog class="mdl-dialog" id="mdl-dialogS">
+                        <h4 class="mdl-dialog__title" style="text-align: center;" id="mdl-dialog__titleS">Search</h4>
+                        <div class="mdl-dialog__content" id="mdl-dialog__contentS">
+                            
+                            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label is-upgraded is-dirty" data-upgraded=",MaterialTextfield">
+                                <input class="mdl-textfield__input" type="text" id="pickupLocation" pattern="^(?:(?:^| )\S+ *){3,}$" required="">
+                                <label class="mdl-textfield__label" for="pickupLocation">Start:</label> <span class="mdl-textfield__error">Please put in your start location</span> </div>
+                                
+                                
+        
+                                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label is-upgraded is-dirty" data-upgraded=",MaterialTextfield">
+                                    <input class="mdl-textfield__input" type="text" id="destinationLocation" pattern="^(?:(?:^| )\S+ *){3,}$" required="">
+                                    <label class="mdl-textfield__label" for="destinationLocation">End:</label> <span class="mdl-textfield__error">Please put in your destination</span> </div>
+                                
+                        </div>
+                        <div class="mdl-dialog__actions" id="mdl-dialog__actionsS">
+                            <button type="button" onclick="addStart();addStop();drawLine();makeBooking();" class="mdl-button agree">Confirm</button>
+                            <button type="button" onclick="clearFields();" class="mdl-button close">Cancel</button>
+                          </div>
+                    
+                      </dialog>
+
+                      <div class="videos">
+                        <span>
+                          <h3>Local Stream</h3>
+                          <video id="webcamVideo" autoplay playsinline></video>
+                        </span>
+                        <span>
+                          <h3>Remote Stream</h3>
+                          <video id="remoteVideo" autoplay playsinline></video>
+                        </span>
+                  
+                  
+                      </div>
+                  
+                      <button id="webcamButton">Start webcam</button>
+                      <h2>2. Create a new Call</h2>
+                      <button id="callButton" disabled>Create Call (offer)</button>
+                  
+                      <h2>3. Join a Call</h2>
+                      <p>Answer the call from a different browser window or device</p>
+                      
+                      <input id="callInput" />
+                      <button id="answerButton" disabled>Answer</button>
+                  
+                      <h2>4. Hangup</h2>
+                  
+                      <button id="hangupButton" disabled>Hangup</button>
+                  
+                      <script type="module" src="../js/p2p.js"></script>
+                  
+                
+</main>
+</body>
+<script src="../js/main.js"></script>
+<script src="../js/api.js"></script>
+<script src="../js/classes.js"></script>
+<script type="module">
+  // Import the functions you need from the SDKs you need
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.14.0/firebase-app.js";
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.14.0/firebase-analytics.js";
+  // TODO: Add SDKs for Firebase products that you want to use
+  // https://firebase.google.com/docs/web/setup#available-libraries
+
+  // Your web app's Firebase configuration
+  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+  const firebaseConfig = {
+    apiKey: "AIzaSyC3deGZPPFkuodHyIooXgQMkx7hnftviP0",
+    authDomain: "b-side-f086d.firebaseapp.com",
+    projectId: "b-side-f086d",
+    storageBucket: "b-side-f086d.appspot.com",
+    messagingSenderId: "843512008015",
+    appId: "1:843512008015:web:6c22075e90c14cc844893a",
+    measurementId: "G-CCY7094HLX"
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
+</script>
+
+</html>
