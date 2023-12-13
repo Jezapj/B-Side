@@ -95,7 +95,7 @@ function showOnMap(result)
 	let lng
 	for(let i = 0; i < result.results.length; i++)
 	{
-		if(Math.floor(parseInt(result.results[i].components.postcode)/STATE_POSTCODE)== 1)// if victorian address add to map
+		/*if(Math.floor(parseInt(result.results[i].components.postcode)/STATE_POSTCODE)== 1)// if victorian address add to map
 		{
 			lat = result.results[0].geometry.lat;
     		lng = result.results[0].geometry.lng;
@@ -120,7 +120,25 @@ function showOnMap(result)
 		{
 			alert("Please enter a valid Victorian address containing street number, street name, and suburb")
 			break
-		}
+		}*/
+		lat = result.results[0].geometry.lat;
+		lng = result.results[0].geometry.lng;
+		coordinates.push(lng,lat);
+		map.setCenter(coordinates); 
+		let marker = new mapboxgl.Marker();
+		marker.setLngLat(coordinates);
+		let popup = new mapboxgl.Popup({
+			offset: 45
+		});
+		popup.setHTML(`${result.results[0].formatted}`);
+		marker.setPopup(popup);
+		marker.addTo(map);
+		popup.addTo(map);
+		
+		// add stop to array
+		stops.push(new Location(result.results[0].formatted, coordinates));// add stop to stops array as location class instance
+		drawLine();
+		return coordinates;
 	}
 }
 
